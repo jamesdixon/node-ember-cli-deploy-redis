@@ -11,15 +11,15 @@ var basicReq = {
 
 var testApi = require('./helpers/test-api');
 
-var redisClientApi = testApi.ThenRedisClientApi;
+var redisClientApi = testApi.ioRedisClientApi;
 
-var ThenRedisApi = testApi.ThenRedisApi;
+var ioRedisApi = testApi.ioRedisApi;
 
 describe('fetch', function() {
   var sandbox;
   before(function() {
     sandbox = sinon.sandbox.create();
-    fetchIndex.__set__('ThenRedis', ThenRedisApi);
+    fetchIndex.__set__('ioRedis', ioRedisApi);
   });
 
   afterEach(function() {
@@ -51,7 +51,7 @@ describe('fetch', function() {
 
     describe('redis client initialize', function() {
       it('sets up redis (defaults)', function() {
-        var redisMock = sandbox.mock(ThenRedisApi);
+        var redisMock = sandbox.mock(ioRedisApi);
         redisMock.expects('createClient').
           withArgs(fetchIndex.__get__('defaultConnectionInfo')).
           once();
@@ -63,7 +63,7 @@ describe('fetch', function() {
 
       it('sets up redis (config passed)', function() {
         var configString = 'redis://h:passw0rd@example.org:6929';
-        var redisMock = sandbox.mock(ThenRedisApi);
+        var redisMock = sandbox.mock(ioRedisApi);
         redisMock.expects('createClient').
           withArgs(configString).
           once();
